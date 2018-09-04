@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Programming Project | ProjectName</title>
+</head>
+
+<body>
+    <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <script>
+        var canvas, canvasContext;
+
+        window.onload = function() {
+            canvas = document.getElementById('gameCanvas')
+            canvasContext = canvas.getContext('2d');
+
+            setInterval(mainLoop, 1000 / 50);
+        }
+
+    </script>
+</body>
+
+</html>
