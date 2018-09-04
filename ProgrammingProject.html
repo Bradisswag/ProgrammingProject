@@ -17,6 +17,10 @@
             setInterval(mainLoop, 1000 / 50);
         }
 
+        function mainLoop() {
+            colorRect(0, 0, canvas.width, canvas.height, 'black')
+        }
+
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
