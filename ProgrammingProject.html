@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>Programming Project | ProjectName</title>
+    <title>Programming Project | Jet-pack Dodger</title>
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <canvas id="gameCanvas" width="500" height="900"></canvas>
     <script>
         var canvas, canvasContext;
 
@@ -18,7 +18,8 @@
         }
 
         function mainLoop() {
-            colorRect(0, 0, canvas.width, canvas.height, 'black')
+            colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
+            colorRect(0, 0, 25,25, 'orange'); // Player object
         }
 
         function colorRect(x, y, w, h, c) {
