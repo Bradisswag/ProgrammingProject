@@ -73,16 +73,16 @@
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
                 if (oneKeyPressed) {
-                    console.log("test1");
                     Easy = true;
+                    GameRun = true;
                 }
                 if (twoKeyPressed) {
-                    console.log("test2");
                     Medium = true;
+                    GameRun = true;
                 }
                 if (threeKeyPressed) {
-                    console.log("test3");
                     Hard = true;
+                    GameRun = true;
                 }
             }
         }
