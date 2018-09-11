@@ -8,23 +8,99 @@
 <body>
     <canvas id="gameCanvas" width="500" height="900"></canvas>
     <script>
-        var canvas, canvasContext;
+        var canvas, canvasContext, imgAssests;
 
         window.onload = function() {
             canvas = document.getElementById('gameCanvas')
             canvasContext = canvas.getContext('2d');
+            imgAssests = LoadImageAssests();
+            //document.addEventListener('', keyPressed);
 
             setInterval(mainLoop, 1000 / 50);
         }
 
+        var PlayerXPos = 250;
+        var PlayerYPos = 850;
+        var PlayerWidth = 20;
+        var PlayerHeight = 20;
+
+        var GameRun = false;
+        var easy = true;
+        var medium = false;
+        var hard = false;
+
+
         function mainLoop() {
-            colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
-            colorRect(0, 0, 25,25, 'orange'); // Player object
+            if (GameRun == true) {
+                if (easy == true) {
+                    colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
+                    colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
+
+                    drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
+
+                    drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
+
+                    drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+                }
+                if (medium == true) {
+                    colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
+                    colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
+
+                    drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
+
+                    drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
+
+                    drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+                }
+                if (hard == true) {
+                    colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
+                    colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
+
+                    drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
+
+                    drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
+
+                    drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+                }
+            } else if (GameRun == false) {
+                drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
+            }
+        }
+
+        function LoadImageAssests() {
+            imgs = {};
+            imgs.player = new Image();
+            imgs.player.src = 'jetpack.png';
+
+            imgs.background = new Image();
+            imgs.background.src = 'space.jpg';
+
+            imgs.doughnut = new Image();
+            imgs.doughnut.src = 'Doughnut.png';
+            
+            imgs.startscreen = new Image();
+            imgs.startscreen.src = 'startscreen0.png';
+
+            return imgs;
+        }
+
+        function drawSprite(src, x, y, w, h) {
+            canvasContext.drawImage(src, x, y, w, h);
         }
 
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
+        }
+
+        function drawText(x, y, color, msg, sizeStyle) {
+            canvasContext.fillStyle = color;
+            canvasContext.fillText(msg, x, y);
+            canvasContext.font = sizeStyle;
+        }
+
+        function jetPack() {
+
         }
     </script>
 </body>
