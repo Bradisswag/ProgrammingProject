@@ -17,7 +17,11 @@
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
 
-            setInterval(mainLoop, 1000 / 50);
+            for (i = 0; i <= brickCount; i++) {
+                brickArray.push(randomBrick());
+            }
+
+            setInterval(mainLoop, 2500 / 50);
         }
 
         // Player
@@ -37,6 +41,22 @@
         var twoKeyPressed = false;
         var threeKeyPressed = false;
 
+        //RandomObject
+        var brickXpos = 0;
+        var brickYpos = 0;
+        var brickYspeed = 1;
+        var brickXspeed = 1;
+        var brickWidth = 10;
+        var brickHeight = 10;
+
+        var brickArray = [];
+        var brickCount = 10;
+
+        function brickRender() {
+            brickArray.forEach(function(brick, index) {
+                colorRect(brick.brickXpos, brick.brickYpos, brick.brickWidth, brick.brickHeight, 'silver');
+            });
+        }
 
         function mainLoop() {
             if (GameRun == true) {
@@ -49,6 +69,9 @@
                     drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
 
                     drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+
+                    brickRender();
+                    brickMovement();
                 }
                 if (Medium == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
@@ -59,6 +82,9 @@
                     drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
 
                     drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+
+                    brickRender();
+                    brickMovement();
                 }
                 if (Hard == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
@@ -69,6 +95,9 @@
                     drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
 
                     drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+
+                    brickRender();
+                    brickMovement();
                 }
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
@@ -87,6 +116,44 @@
             }
         }
 
+        function randomBrick() {
+            brickWidth = Math.floor(Math.random() * (25 - 50) + 1);
+            brickHeight = Math.floor(Math.random() * (25 - 50) + 1);
+
+            var randBrick = {
+                brickWidth: brickWidth,
+                brickHeight: brickHeight,
+                brickXpos: Math.floor(Math.random() * ((canvas.width - brickWidth))),
+                brickYpos: Math.floor(Math.random() * ((700 - brickHeight))),
+                brickXspeed: Math.floor(Math.random() * (25 - 1) + 1),
+                brickYspeed: Math.floor(Math.random() * (25 - 1) + 1)
+            }
+            return randBrick;
+        }
+
+        function brickMovement() {
+
+            brickArray.forEach(function(bricks, index) {
+
+                bricks.brickXpos += bricks.brickXspeed
+                bricks.brickYpos += bricks.brickYspeed
+
+                if (bricks.brickXpos > canvas.width - bricks.brickWidth) {
+                    bricks.brickXspeed *= -1;
+                }
+                if (bricks.brickXpos < 0) {
+                    bricks.brickXspeed *= -1;
+                }
+                if (bricks.brickYpos > canvas.width - bricks.brickWidth) {
+                    bricks.brickYspeed *= -1;
+                }
+                if (bricks.brickYpos < 0) {
+                    bricks.brickYspeed *= -1;
+                }
+            });
+
+        }
+        
         function keyPressed(evt) {
             if (evt.keyCode == 49) {
                 oneKeyPressed = true;
