@@ -14,25 +14,33 @@
             canvas = document.getElementById('gameCanvas')
             canvasContext = canvas.getContext('2d');
             imgAssests = LoadImageAssests();
-            //document.addEventListener('', keyPressed);
+            document.addEventListener('keydown', keyPressed);
+            document.addEventListener('keyup', keyReleased);
 
             setInterval(mainLoop, 1000 / 50);
         }
 
+        // Player
         var PlayerXPos = 250;
         var PlayerYPos = 850;
         var PlayerWidth = 20;
         var PlayerHeight = 20;
 
+        //System
         var GameRun = false;
-        var easy = true;
-        var medium = false;
-        var hard = false;
+        var Easy = false;
+        var Medium = false;
+        var Hard = false;
+
+        //StartScreen
+        var oneKeyPressed = false;
+        var twoKeyPressed = false;
+        var threeKeyPressed = false;
 
 
         function mainLoop() {
             if (GameRun == true) {
-                if (easy == true) {
+                if (Easy == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
                     colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
 
@@ -42,7 +50,7 @@
 
                     drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
                 }
-                if (medium == true) {
+                if (Medium == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
                     colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
 
@@ -52,7 +60,7 @@
 
                     drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
                 }
-                if (hard == true) {
+                if (Hard == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
                     colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
 
@@ -64,6 +72,42 @@
                 }
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
+                if (oneKeyPressed) {
+                    console.log("test1");
+                    Easy = true;
+                }
+                if (twoKeyPressed) {
+                    console.log("test2");
+                    Medium = true;
+                }
+                if (threeKeyPressed) {
+                    console.log("test3");
+                    Hard = true;
+                }
+            }
+        }
+
+        function keyPressed(evt) {
+            if (evt.keyCode == 49) {
+                oneKeyPressed = true;
+            }
+            if (evt.keyCode == 50) {
+                twoKeyPressed = true;
+            }
+            if (evt.keyCode == 51) {
+                threeKeyPressed = true;
+            }
+        }
+
+        function keyReleased(evt) {
+            if (evt.keyCode == 49) {
+                oneKeyPressed = false;
+            }
+            if (evt.keyCode == 50) {
+                twoKeyPressed = false;
+            }
+            if (evt.keyCode == 51) {
+                threeKeyPressed = false;
             }
         }
 
@@ -77,7 +121,7 @@
 
             imgs.doughnut = new Image();
             imgs.doughnut.src = 'Doughnut.png';
-            
+
             imgs.startscreen = new Image();
             imgs.startscreen.src = 'startscreen0.png';
 
