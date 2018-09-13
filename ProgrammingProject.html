@@ -20,6 +20,9 @@
             for (i = 0; i <= brickCount; i++) {
                 brickArray.push(randomBrick());
             }
+            for (i = 0; i <= fuelCount; i++) {
+                fuelArray.push(randomFuel());
+            }
 
             setInterval(mainLoop, 2500 / 50);
         }
@@ -41,7 +44,7 @@
         var twoKeyPressed = false;
         var threeKeyPressed = false;
 
-        //RandomObject
+        //Random Objects
         var brickXpos = 0;
         var brickYpos = 0;
         var brickYspeed = 1;
@@ -52,9 +55,26 @@
         var brickArray = [];
         var brickCount = 10;
 
+        //Fuel Cans
+        var fuelXpos = 0;
+        var fuelYpos = 0;
+        var fuelYspeed = 1;
+        var fuelXspeed = 1;
+        var fuelWidth = 50;
+        var fuelHeight = 50;
+
+        var fuelArray = [];
+        var fuelCount = 10;
+
         function brickRender() {
             brickArray.forEach(function(brick, index) {
                 colorRect(brick.brickXpos, brick.brickYpos, brick.brickWidth, brick.brickHeight, 'silver');
+            });
+        }
+
+        function fuelRender() {
+            fuelArray.forEach(function(fuel, index) {
+                drawSprite(imgs.fuelcan, fuel.fuelXpos, fuel.fuelYpos, fuel.fuelWidth, fuel.fuelHeight); // fuel can
             });
         }
 
@@ -72,6 +92,7 @@
 
                     brickRender();
                     brickMovement();
+                    fuelRender()
                 }
                 if (Medium == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
@@ -85,6 +106,7 @@
 
                     brickRender();
                     brickMovement();
+                    fuelRender()
                 }
                 if (Hard == true) {
                     colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
@@ -98,6 +120,7 @@
 
                     brickRender();
                     brickMovement();
+                    fuelRender()
                 }
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
@@ -114,6 +137,21 @@
                     GameRun = true;
                 }
             }
+        }
+
+        function randomFuel() {
+            brickWidth = Math.floor(Math.random() * (25 - 50) + 1);
+            brickHeight = Math.floor(Math.random() * (25 - 50) + 1);
+
+            var randFuel = {
+                fuelWidth: fuelWidth,
+                fuelHeight: fuelHeight,
+                fuelXpos: Math.floor(Math.random() * ((canvas.width - fuelWidth))),
+                fuelYpos: Math.floor(Math.random() * ((800 - fuelHeight))),
+                fuelXspeed: Math.floor(Math.random() * (25 - 1) + 1),
+                fuelYspeed: Math.floor(Math.random() * (25 - 1) + 1)
+            }
+            return randFuel;
         }
 
         function randomBrick() {
@@ -153,27 +191,27 @@
             });
 
         }
-        
+
         function keyPressed(evt) {
-            if (evt.keyCode == 49) {
+            if (evt.keyCode == 49) { //1
                 oneKeyPressed = true;
             }
-            if (evt.keyCode == 50) {
+            if (evt.keyCode == 50) { //2
                 twoKeyPressed = true;
             }
-            if (evt.keyCode == 51) {
+            if (evt.keyCode == 51) { //3
                 threeKeyPressed = true;
             }
         }
 
         function keyReleased(evt) {
-            if (evt.keyCode == 49) {
+            if (evt.keyCode == 49) { //1
                 oneKeyPressed = false;
             }
-            if (evt.keyCode == 50) {
+            if (evt.keyCode == 50) { //2
                 twoKeyPressed = false;
             }
-            if (evt.keyCode == 51) {
+            if (evt.keyCode == 51) { //3
                 threeKeyPressed = false;
             }
         }
@@ -191,6 +229,9 @@
 
             imgs.startscreen = new Image();
             imgs.startscreen.src = 'startscreen0.png';
+
+            imgs.fuelcan = new Image();
+            imgs.fuelcan.src = 'fuelcan.png';
 
             return imgs;
         }
@@ -213,6 +254,7 @@
         function jetPack() {
 
         }
+
     </script>
 </body>
 
