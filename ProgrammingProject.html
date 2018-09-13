@@ -53,7 +53,7 @@
         var brickHeight = 10;
 
         var brickArray = [];
-        var brickCount = 10;
+        var brickCount = 0;
 
         //Fuel Cans
         var fuelXpos = 0;
@@ -64,7 +64,47 @@
         var fuelHeight = 50;
 
         var fuelArray = [];
-        var fuelCount = 10;
+        var fuelCount = 0;
+
+        var diffculty = 0;
+        
+        function mainLoop() {
+            if (GameRun == true) {
+
+                colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
+                colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
+
+                drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
+
+                drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
+
+                drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+
+                brickRender();
+                brickMovement();
+                fuelRender()
+                fuelMovement()
+
+            } else if (GameRun == false) {
+                drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
+                prompt('how hard?,123');
+                if (diffculty == 1) {
+                    brickCount = 5;
+                    fuelCount = 3;
+                    GameRun == true
+                }
+                if (diffculty == 2) {
+                    brickCount = 10;
+                    fuelCount = 4;
+                    GameRun == true
+                }
+                if (diffculty == 3) {
+                    brickCount = 15;
+                    fuelCount = 5;
+                    GameRun == true
+                }
+            }
+        }
 
         function brickRender() {
             brickArray.forEach(function(brick, index) {
@@ -76,67 +116,6 @@
             fuelArray.forEach(function(fuel, index) {
                 drawSprite(imgs.fuelcan, fuel.fuelXpos, fuel.fuelYpos, fuel.fuelWidth, fuel.fuelHeight); // fuel can
             });
-        }
-
-        function mainLoop() {
-            if (GameRun == true) {
-                if (Easy == true) {
-                    colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
-                    colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
-
-                    drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
-
-                    drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
-
-                    drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
-
-                    brickRender();
-                    brickMovement();
-                    fuelRender()
-                }
-                if (Medium == true) {
-                    colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
-                    colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
-
-                    drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
-
-                    drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
-
-                    drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
-
-                    brickRender();
-                    brickMovement();
-                    fuelRender()
-                }
-                if (Hard == true) {
-                    colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
-                    colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
-
-                    drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
-
-                    drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
-
-                    drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
-
-                    brickRender();
-                    brickMovement();
-                    fuelRender()
-                }
-            } else if (GameRun == false) {
-                drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
-                if (oneKeyPressed) {
-                    Easy = true;
-                    GameRun = true;
-                }
-                if (twoKeyPressed) {
-                    Medium = true;
-                    GameRun = true;
-                }
-                if (threeKeyPressed) {
-                    Hard = true;
-                    GameRun = true;
-                }
-            }
         }
 
         function randomFuel() {
@@ -162,7 +141,7 @@
                 brickWidth: brickWidth,
                 brickHeight: brickHeight,
                 brickXpos: Math.floor(Math.random() * ((canvas.width - brickWidth))),
-                brickYpos: Math.floor(Math.random() * ((700 - brickHeight))),
+                brickYpos: 0, //Math.floor(Math.random() * ((700 - brickHeight))),
                 brickXspeed: Math.floor(Math.random() * (25 - 1) + 1),
                 brickYspeed: Math.floor(Math.random() * (25 - 1) + 1)
             }
@@ -170,7 +149,6 @@
         }
 
         function brickMovement() {
-
             brickArray.forEach(function(bricks, index) {
 
                 bricks.brickXpos += bricks.brickXspeed
@@ -182,15 +160,32 @@
                 if (bricks.brickXpos < 0) {
                     bricks.brickXspeed *= -1;
                 }
-                if (bricks.brickYpos > canvas.width - bricks.brickWidth) {
-                    bricks.brickYspeed *= -1;
-                }
-                if (bricks.brickYpos < 0) {
-                    bricks.brickYspeed *= -1;
+                if (bricks.brickYpos > canvas.height - bricks.brickHeight) {
+                    bricks.brickYpos = 0 - bricks.brickHeight;
                 }
             });
-
         }
+
+        function fuelMovement() {
+            fuelArray.forEach(function(fuel, index) {
+
+                fuel.fuelXpos += fuel.fuelXspeed
+                fuel.fuelYpos += fuel.fuelYspeed
+
+                if (fuel.fuelXpos > canvas.width - fuel.fuelWidth) {
+                    fuel.fuelXspeed *= -1;
+                }
+                if (fuel.fuelXpos < 0) {
+                    fuel.fuelXspeed *= -1;
+                }
+                if (fuel.fuelYpos > canvas.height - fuel.fuelHeight) {
+                    fuel.fuelYpos = 0 - fuel.fuelHeight;
+                }
+            });
+        }
+        //                if (bricks.brickYpos < 0) {
+        //                    bricks.brickYspeed *= -1;
+        //                }
 
         function keyPressed(evt) {
             if (evt.keyCode == 49) { //1
@@ -201,6 +196,18 @@
             }
             if (evt.keyCode == 51) { //3
                 threeKeyPressed = true;
+            }
+            if (evt.keyCode == 37) { //< Left key
+                leftArrowKeyPressed = true;
+            }
+            if (evt.keyCode == 39) { //> Right key
+                rightArrowKeyPressed = true;
+            }
+            if (evt.keyCode == 38) { //^ Up key
+                upArrowKeyPressed = true;
+            }
+            if (evt.keyCode == 40) { //v Down key
+                downArrowKeyPressed = true;
             }
         }
 
@@ -213,6 +220,18 @@
             }
             if (evt.keyCode == 51) { //3
                 threeKeyPressed = false;
+            }
+            if (evt.keyCode == 37) { //< Left key
+                leftArrowKeyPressed = false;
+            }
+            if (evt.keyCode == 39) { //> Right key
+                rightArrowKeyPressed = false;
+            }
+            if (evt.keyCode == 38) { //^ Up key
+                upArrowKeyPressed = false;
+            }
+            if (evt.keyCode == 40) { //v Down key
+                downArrowKeyPressed = false;
             }
         }
 
@@ -249,10 +268,6 @@
             canvasContext.fillStyle = color;
             canvasContext.fillText(msg, x, y);
             canvasContext.font = sizeStyle;
-        }
-
-        function jetPack() {
-
         }
 
     </script>
