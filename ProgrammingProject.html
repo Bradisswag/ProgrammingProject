@@ -34,8 +34,8 @@
         var PlayerHeight = 20;
 
         //System
-        var GameRun = false;
-        var Easy = false;
+        var GameRun = true;
+        var Easy = true;
         var Medium = false;
         var Hard = false;
 
@@ -49,8 +49,8 @@
         var brickYpos = 0;
         var brickYspeed = 1;
         var brickXspeed = 1;
-        var brickWidth = 10;
-        var brickHeight = 10;
+        var brickWidth = 0;
+        var brickHeight = 0;
 
         var brickArray = [];
         var brickCount = 0;
@@ -66,11 +66,14 @@
         var fuelArray = [];
         var fuelCount = 0;
 
-        var diffculty = 0;
+        var difficulty = 0;
         
+        //meteor
+        var meteorWidth = 100;
+        var meteorHeight = 100;
+
         function mainLoop() {
             if (GameRun == true) {
-
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
                 colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
 
@@ -82,33 +85,33 @@
 
                 brickRender();
                 brickMovement();
-                fuelRender()
-                fuelMovement()
-
+                fuelRender();
+                fuelMovement();
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
-                prompt('how hard?,123');
-                if (diffculty == 1) {
+                if (difficulty == 1) {
                     brickCount = 5;
                     fuelCount = 3;
-                    GameRun == true
+                    GameRun = true
                 }
-                if (diffculty == 2) {
+                if (difficulty == 2) {
                     brickCount = 10;
                     fuelCount = 4;
-                    GameRun == true
+                    GameRun = true
                 }
-                if (diffculty == 3) {
+                if (difficulty == 3) {
                     brickCount = 15;
                     fuelCount = 5;
-                    GameRun == true
+                    GameRun = true
                 }
             }
+            console.log();
+            console.log(brickCount);
         }
 
         function brickRender() {
             brickArray.forEach(function(brick, index) {
-                colorRect(brick.brickXpos, brick.brickYpos, brick.brickWidth, brick.brickHeight, 'silver');
+                drawSprite(imgs.meteor, brick.brickXpos, brick.brickYpos, brick.brickWidth, brick.brickHeight); // meteor
             });
         }
 
@@ -134,8 +137,8 @@
         }
 
         function randomBrick() {
-            brickWidth = Math.floor(Math.random() * (25 - 50) + 1);
-            brickHeight = Math.floor(Math.random() * (25 - 50) + 1);
+            brickWidth = meteorWidth;
+            brickHeight = meteorHeight;
 
             var randBrick = {
                 brickWidth: brickWidth,
@@ -190,12 +193,15 @@
         function keyPressed(evt) {
             if (evt.keyCode == 49) { //1
                 oneKeyPressed = true;
+                difficulty = 1;
             }
             if (evt.keyCode == 50) { //2
                 twoKeyPressed = true;
+                difficulty = 2;
             }
             if (evt.keyCode == 51) { //3
                 threeKeyPressed = true;
+                difficulty = 3;
             }
             if (evt.keyCode == 37) { //< Left key
                 leftArrowKeyPressed = true;
@@ -251,6 +257,9 @@
 
             imgs.fuelcan = new Image();
             imgs.fuelcan.src = 'fuelcan.png';
+            
+            imgs.meteor = new Image();
+            imgs.meteor.src = 'meteor.png';
 
             return imgs;
         }
@@ -269,7 +278,6 @@
             canvasContext.fillText(msg, x, y);
             canvasContext.font = sizeStyle;
         }
-
     </script>
 </body>
 
