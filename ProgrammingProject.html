@@ -17,13 +17,6 @@
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
 
-            for (i = 0; i <= brickCount; i++) {
-                brickArray.push(randomBrick());
-            }
-            for (i = 0; i <= fuelCount; i++) {
-                fuelArray.push(randomFuel());
-            }
-
             setInterval(mainLoop, 2500 / 50);
         }
 
@@ -34,8 +27,8 @@
         var PlayerHeight = 20;
 
         //System
-        var GameRun = true;
-        var Easy = true;
+        var GameRun = false;
+        var Easy = false;
         var Medium = false;
         var Hard = false;
 
@@ -47,8 +40,8 @@
         //Random Objects
         var brickXpos = 0;
         var brickYpos = 0;
-        var brickYspeed = 1;
-        var brickXspeed = 1;
+        var brickYspeed = 0;
+        var brickXspeed = 0;
         var brickWidth = 0;
         var brickHeight = 0;
 
@@ -58,8 +51,8 @@
         //Fuel Cans
         var fuelXpos = 0;
         var fuelYpos = 0;
-        var fuelYspeed = 1;
-        var fuelXspeed = 1;
+        var fuelYspeed = 0;
+        var fuelXspeed = 0;
         var fuelWidth = 50;
         var fuelHeight = 50;
 
@@ -67,10 +60,15 @@
         var fuelCount = 0;
 
         var difficulty = 0;
-        
+
         //meteor
         var meteorWidth = 100;
         var meteorHeight = 100;
+
+        //jetpack controls
+        var leftArrowKeyPressed = false
+        var rightArrowKeyPressed = false
+        var spacebarPressed = false
 
         function mainLoop() {
             if (GameRun == true) {
@@ -81,38 +79,40 @@
 
                 drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
 
-                drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // Player jetpack
+                drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // doughnut 
 
                 brickRender();
                 brickMovement();
                 fuelRender();
                 fuelMovement();
+                jetpackControls();
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
-                if (difficulty == 1) {
-                    brickCount = 5;
-                    fuelCount = 3;
-                    GameRun = true
-                }
-                if (difficulty == 2) {
-                    brickCount = 10;
-                    fuelCount = 4;
-                    GameRun = true
-                }
-                if (difficulty == 3) {
-                    brickCount = 15;
-                    fuelCount = 5;
-                    GameRun = true
+                if (difficulty != 0) {
+                    difficultySetting();
                 }
             }
-            console.log();
-            console.log(brickCount);
         }
 
         function brickRender() {
             brickArray.forEach(function(brick, index) {
                 drawSprite(imgs.meteor, brick.brickXpos, brick.brickYpos, brick.brickWidth, brick.brickHeight); // meteor
             });
+        }
+
+        function difficultySetting() {
+            brickCount = difficulty * 5;
+            fuelCount = difficulty + 1;
+            GameRun = true
+            console.log('Bricks:' + brickCount)
+            console.log('Fuels:' + fuelCount)
+
+            for (i = 0; i <= brickCount; i++) {
+                brickArray.push(randomBrick());
+            }
+            for (i = 0; i <= fuelCount; i++) {
+                fuelArray.push(randomFuel());
+            }
         }
 
         function fuelRender() {
@@ -130,8 +130,8 @@
                 fuelHeight: fuelHeight,
                 fuelXpos: Math.floor(Math.random() * ((canvas.width - fuelWidth))),
                 fuelYpos: Math.floor(Math.random() * ((800 - fuelHeight))),
-                fuelXspeed: Math.floor(Math.random() * (25 - 1) + 1),
-                fuelYspeed: Math.floor(Math.random() * (25 - 1) + 1)
+                fuelXspeed: Math.floor(Math.random() * (15 - 1) + 1),
+                fuelYspeed: Math.floor(Math.random() * (15 - 1) + 1)
             }
             return randFuel;
         }
@@ -145,8 +145,8 @@
                 brickHeight: brickHeight,
                 brickXpos: Math.floor(Math.random() * ((canvas.width - brickWidth))),
                 brickYpos: 0, //Math.floor(Math.random() * ((700 - brickHeight))),
-                brickXspeed: Math.floor(Math.random() * (25 - 1) + 1),
-                brickYspeed: Math.floor(Math.random() * (25 - 1) + 1)
+                brickXspeed: Math.floor(Math.random() * (10 - 1) + 1),
+                brickYspeed: Math.floor(Math.random() * (10 - 1) + 1)
             }
             return randBrick;
         }
@@ -186,9 +186,21 @@
                 }
             });
         }
-        //                if (bricks.brickYpos < 0) {
-        //                    bricks.brickYspeed *= -1;
-        //                }
+
+        function jetpackControls() {
+            if (leftArrowKeyPressed = true) {
+                PlayerXPos -= 15;
+            }
+            //if (rightArrowKeyPressed = true) {
+               // PlayerXPos += 15;
+            //}
+            if (spacebarPressed = true) {
+                //PlayerYPos += 5;
+            }
+            if (spacebarPressed = false) {
+                
+            }
+        }
 
         function keyPressed(evt) {
             if (evt.keyCode == 49) { //1
@@ -208,12 +220,10 @@
             }
             if (evt.keyCode == 39) { //> Right key
                 rightArrowKeyPressed = true;
+                console.log('Right Key: ' + rightArrowKeyPressed)
             }
-            if (evt.keyCode == 38) { //^ Up key
-                upArrowKeyPressed = true;
-            }
-            if (evt.keyCode == 40) { //v Down key
-                downArrowKeyPressed = true;
+            if (evt.keyCode == 86) { //  Space key
+                spacebarPressed = true;
             }
         }
 
@@ -233,11 +243,8 @@
             if (evt.keyCode == 39) { //> Right key
                 rightArrowKeyPressed = false;
             }
-            if (evt.keyCode == 38) { //^ Up key
-                upArrowKeyPressed = false;
-            }
-            if (evt.keyCode == 40) { //v Down key
-                downArrowKeyPressed = false;
+            if (evt.keyCode == 86) { //  Space key
+                spacebarPressed = false;
             }
         }
 
@@ -257,7 +264,7 @@
 
             imgs.fuelcan = new Image();
             imgs.fuelcan.src = 'fuelcan.png';
-            
+
             imgs.meteor = new Image();
             imgs.meteor.src = 'meteor.png';
 
