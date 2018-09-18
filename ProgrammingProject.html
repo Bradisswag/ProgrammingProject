@@ -55,6 +55,8 @@
         var fuelXspeed = 0;
         var fuelWidth = 50;
         var fuelHeight = 50;
+        
+        var fuelAmount = 100;
 
         var fuelArray = [];
         var fuelCount = 0;
@@ -73,13 +75,22 @@
         function mainLoop() {
             if (GameRun == true) {
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
-                colorRect(PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight, 'orange'); // Player object
 
                 drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
+                colorRect(10, 10, fuelAmount, 10, 'red');
 
-                drawSprite(imgs.player, PlayerXPos, PlayerYPos, 50, 50); // Player jetpack
+                drawSprite(imgs.player, PlayerXPos, PlayerYPos, 65, 65); // Player jetpack
 
                 drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // doughnut 
+
+                if (PlayerYPos > canvas.height - 65) {
+                    PlayerYPos -= 5;
+                    PlayerYPos += 5;
+                } else {
+                    PlayerYPos += 10;
+                }
+                
+                fuelAmount--;
 
                 brickRender();
                 brickMovement();
@@ -187,21 +198,6 @@
             });
         }
 
-        function jetpackControls() {
-            if (leftArrowKeyPressed = true) {
-                PlayerXPos -= 15;
-            }
-            //if (rightArrowKeyPressed = true) {
-               // PlayerXPos += 15;
-            //}
-            if (spacebarPressed = true) {
-                //PlayerYPos += 5;
-            }
-            if (spacebarPressed = false) {
-                
-            }
-        }
-
         function keyPressed(evt) {
             if (evt.keyCode == 49) { //1
                 oneKeyPressed = true;
@@ -220,9 +216,8 @@
             }
             if (evt.keyCode == 39) { //> Right key
                 rightArrowKeyPressed = true;
-                console.log('Right Key: ' + rightArrowKeyPressed)
             }
-            if (evt.keyCode == 86) { //  Space key
+            if (evt.keyCode == 32) { //  Space key
                 spacebarPressed = true;
             }
         }
@@ -243,11 +238,36 @@
             if (evt.keyCode == 39) { //> Right key
                 rightArrowKeyPressed = false;
             }
-            if (evt.keyCode == 86) { //  Space key
+            if (evt.keyCode == 32) { //  Space key
                 spacebarPressed = false;
             }
         }
 
+        function jetpackControls() {
+            if (leftArrowKeyPressed == true) {
+                PlayerXPos -= 10;
+            }
+            if (rightArrowKeyPressed == true) {
+                PlayerXPos += 10;
+            }
+            if (spacebarPressed == true) {
+                PlayerYPos -= 20;
+            }
+            if (PlayerXPos > canvas.width - 60) {
+                PlayerXPos = canvas.width - 60;
+            }
+            if (PlayerXPos < 0) {
+                PlayerXPos *= -0;
+            }
+            if (PlayerYPos < 0){
+                PlayerYPos *= -0;
+            }
+        }
+
+        function jetpackFuelBar(){
+            // Fuel Bar
+        }
+        
         function LoadImageAssests() {
             imgs = {};
             imgs.player = new Image();
