@@ -55,8 +55,10 @@
         var fuelXspeed = 0;
         var fuelWidth = 50;
         var fuelHeight = 50;
-        
+
         var fuelAmount = 100;
+
+        var fuelPerCan = 50;
 
         var fuelArray = [];
         var fuelCount = 0;
@@ -77,10 +79,12 @@
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
 
                 drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
-                colorRect(10, 10, fuelAmount, 10, 'red');
+                colorRect(10, 25, fuelAmount, 20, 'red'); //fuel bar
+                canvasContext.font = "20px Arial"; //text
+                canvasContext.fillText("Fuel Amount:", 5, 20); //text
 
-                drawSprite(imgs.player, PlayerXPos, PlayerYPos, 65, 65); // Player jetpack
-
+                var player = drawSprite(imgs.player, PlayerXPos, PlayerYPos, 65, 65); // Player jetpack            
+                
                 drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // doughnut 
 
                 if (PlayerYPos > canvas.height - 65) {
@@ -89,8 +93,35 @@
                 } else {
                     PlayerYPos += 10;
                 }
-                
-                fuelAmount--;
+
+                if (fuelAmount == -0) {
+                    fuelAmount = -0
+                } else {
+                    fuelAmount--;
+                }
+
+                if (fuelAmount == 0) {
+
+                } else if (fuelAmount < 30) {
+                    canvasContext.font = "70px Arial Bold"; //text
+                    canvasContext.fillText("FUEL LOW!", 70, canvas.height / 2); //text
+                }
+                if (fuelAmount == 0) {
+                    canvasContext.font = "90px Arial Bold"; //text
+                    canvasContext.fillText("Game Over!", 30, canvas.height / 3); //text
+
+                    canvasContext.font = "30px Arial Bold"; //text
+                    canvasContext.fillText("Press 'F5' to play again.", 100, canvas.height / 2); //text
+                    return;
+                }
+
+                if (fuelArray.forEach) {
+                    fuelPerCan = 25;
+                }
+
+                if (player) {
+
+                }
 
                 brickRender();
                 brickMovement();
@@ -259,15 +290,15 @@
             if (PlayerXPos < 0) {
                 PlayerXPos *= -0;
             }
-            if (PlayerYPos < 0){
+            if (PlayerYPos < 0) {
                 PlayerYPos *= -0;
             }
         }
 
-        function jetpackFuelBar(){
+        function jetpackFuelBar() {
             // Fuel Bar
         }
-        
+
         function LoadImageAssests() {
             imgs = {};
             imgs.player = new Image();
