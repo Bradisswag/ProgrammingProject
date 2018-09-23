@@ -33,7 +33,7 @@
         var PlayerHeight = 20;
 
         //System
-        var GameRun = true;
+        var GameRun = false;
         var Easy = false;
         var Medium = false;
         var Hard = false;
@@ -82,10 +82,10 @@
 
         function mainLoop() {
             if (GameRun == true) {
-                //if (isThereAUsername == false) {//Gets Username
-                    //username = prompt('Please enter your username.');
-                    //isThereAUsername = true;
-                //}
+                if (isThereAUsername == false) {//Gets Username
+                    username = prompt('Please enter your username.');
+                    isThereAUsername = true;
+                }
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
 
                 drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
