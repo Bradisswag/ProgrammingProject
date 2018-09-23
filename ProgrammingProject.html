@@ -19,6 +19,12 @@
 
             setInterval(mainLoop, 2500 / 50);
         }
+        //Timer
+        var timer = 0;
+
+        //Username
+        var isThereAUsername = false;
+        var username = [];
 
         // Player
         var PlayerXPos = 250;
@@ -27,7 +33,7 @@
         var PlayerHeight = 20;
 
         //System
-        var GameRun = false;
+        var GameRun = true;
         var Easy = false;
         var Medium = false;
         var Hard = false;
@@ -76,25 +82,38 @@
 
         function mainLoop() {
             if (GameRun == true) {
+                //if (isThereAUsername == false) {//Gets Username
+                    //username = prompt('Please enter your username.');
+                    //isThereAUsername = true;
+                //}
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
 
                 drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
-                colorRect(10, 25, fuelAmount, 20, 'red'); //fuel bar
+                colorRect(10, 25, fuelAmount, 20, 'aqua'); //fuel bar
                 canvasContext.font = "20px Arial"; //text
                 canvasContext.fillText("Fuel Amount:", 5, 20); //text
 
                 var player = drawSprite(imgs.player, PlayerXPos, PlayerYPos, 65, 65); // Player jetpack            
-                
+
                 drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // doughnut 
 
-                if (PlayerYPos > canvas.height - 65) {
+                if (PlayerYPos > canvas.height - 65) { //Gravity
                     PlayerYPos -= 5;
                     PlayerYPos += 5;
                 } else {
                     PlayerYPos += 10;
                 }
 
-                if (fuelAmount == -0) {
+                canvasContext.font = "20px Arial"; //Timer text
+                canvasContext.fillText('Timer: ' + timer / 20, 405, 20); //Timer text
+                
+                if (fuelAmount == 0) {//Timer
+                }
+                else if (GameRun == true) {//Timer
+                    timer++;
+                }
+
+                if (fuelAmount == -0) { //Decreases Fuel Bar
                     fuelAmount = -0
                 } else {
                     fuelAmount--;
@@ -112,11 +131,10 @@
 
                     canvasContext.font = "30px Arial Bold"; //text
                     canvasContext.fillText("Press 'F5' to play again.", 100, canvas.height / 2); //text
+                    
+                    canvasContext.font = "25px Arial Bold"; //text
+                    canvasContext.fillText(username + 'Your time was: ' + timer / 20 + ' seconds', 120, canvas.height / 2 + 50); //text
                     return;
-                }
-
-                if (fuelArray.forEach) {
-                    fuelPerCan = 25;
                 }
 
                 if (player) {
@@ -336,6 +354,7 @@
             canvasContext.fillText(msg, x, y);
             canvasContext.font = sizeStyle;
         }
+
     </script>
 </body>
 
