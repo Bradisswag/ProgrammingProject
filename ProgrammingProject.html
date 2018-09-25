@@ -37,6 +37,7 @@
         var Easy = false;
         var Medium = false;
         var Hard = false;
+        var winner = false;
 
         //StartScreen
         var oneKeyPressed = false;
@@ -64,7 +65,7 @@
 
         var fuelAmount = 100;
 
-        var fuelPerCan = 50;
+        var fuelPerCan = 25;
 
         var fuelArray = [];
         var fuelCount = 0;
@@ -80,9 +81,15 @@
         var rightArrowKeyPressed = false
         var spacebarPressed = false
 
+        //doughnut
+        var dXPos = canvas.width / 2;    
+        var dYPos = 50;
+        var dWidth = 50;
+        var dHeight = 50;
+        
         function mainLoop() {
             if (GameRun == true) {
-                if (isThereAUsername == false) {//Gets Username
+                if (isThereAUsername == false) { //Gets Username
                     username = prompt('Please enter your username.');
                     isThereAUsername = true;
                 }
@@ -106,17 +113,19 @@
 
                 canvasContext.font = "20px Arial"; //Timer text
                 canvasContext.fillText('Timer: ' + timer / 20, 405, 20); //Timer text
-                
-                if (fuelAmount == 0) {//Timer
-                }
-                else if (GameRun == true) {//Timer
+
+                if (fuelAmount <= 0) {//Timer
+                    fuelAmount = 0;
+                } else if (GameRun == true) { //Timer
                     timer++;
                 }
 
-                if (fuelAmount == -0) { //Decreases Fuel Bar
-                    fuelAmount = -0
-                } else {
-                    fuelAmount--;
+                if (spacebarPressed) {
+                    if (fuelAmount <= 0) { //Decreases Fuel Bar
+                        fuelAmount = 0;
+                    } else {
+                        fuelAmount--;
+                    }
                 }
 
                 if (fuelAmount == 0) {
@@ -131,14 +140,30 @@
 
                     canvasContext.font = "30px Arial Bold"; //text
                     canvasContext.fillText("Press 'F5' to play again.", 100, canvas.height / 2); //text
-                    
+
                     canvasContext.font = "25px Arial Bold"; //text
-                    canvasContext.fillText(username + 'Your time was: ' + timer / 20 + ' seconds', 120, canvas.height / 2 + 50); //text
+                    canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
+                    return;
+                }
+                
+                if(winner == true){
+                    colorRect(10, 25, fuelAmount, 20, 'gold'); //fuel bar
+                    canvasContext.font = "90px Arial Bold"; //text
+                    canvasContext.fillText("Congrats!", 30, canvas.height / 4); //text
+                    
+                    canvasContext.font = "90px Arial Bold"; //text
+                    canvasContext.fillText("Game Over!", 30, canvas.height / 3); //text
+
+                    canvasContext.font = "30px Arial Bold"; //text
+                    canvasContext.fillText("Press 'F5' to play again.", 100, canvas.height / 2); //text
+
+                    canvasContext.font = "25px Arial Bold"; //text
+                    canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
                     return;
                 }
 
-                if (player) {
-
+                if (fuelAmount <= 0) {
+                    fuelAmount - 0;
                 }
 
                 brickRender();
@@ -226,9 +251,21 @@
                 if (bricks.brickYpos > canvas.height - bricks.brickHeight) {
                     bricks.brickYpos = 0 - bricks.brickHeight;
                 }
+                if (PlayerXPos < bricks.brickXpos + bricks.brickWidth && PlayerXPos > bricks.brickXpos - PlayerWidth &&
+                    PlayerYPos < bricks.brickYpos + bricks.brickHeight && PlayerYPos > bricks.brickYpos - PlayerHeight) { // collision 
+                    console.log('hit');
+                    fuelAmount = fuelAmount - 10;
+                }
             });
         }
 
+        function win(){
+            if (PlayerXPos < bricks.brickXpos + bricks.brickWidth && PlayerXPos > bricks.brickXpos - PlayerWidth &&
+                    PlayerYPos < bricks.brickYpos + bricks.brickHeight && PlayerYPos > bricks.brickYpos - PlayerHeight) { // collision 
+                    console.log('wo');
+                }
+        }
+        
         function fuelMovement() {
             fuelArray.forEach(function(fuel, index) {
 
@@ -243,6 +280,19 @@
                 }
                 if (fuel.fuelYpos > canvas.height - fuel.fuelHeight) {
                     fuel.fuelYpos = 0 - fuel.fuelHeight;
+                }
+                if (PlayerXPos < fuel.fuelXpos + fuel.fuelWidth && PlayerXPos > fuel.fuelXpos - PlayerWidth &&
+                    PlayerYPos < fuel.fuelYpos + fuel.fuelHeight && PlayerYPos > fuel.fuelYpos - PlayerHeight) { // collision 
+
+                    fuel.fuelYpos = -10;
+                    console.log('hit');
+                    fuelAmount = fuelAmount + fuelPerCan;
+                    if (fuelAmount > 150) {
+                        fuelAmount = 150;
+                    }
+                    if (fuelAmount < -0) {
+                        fuelAmount = 0;
+                    }
                 }
             });
         }
@@ -313,10 +363,6 @@
             }
         }
 
-        function jetpackFuelBar() {
-            // Fuel Bar
-        }
-
         function LoadImageAssests() {
             imgs = {};
             imgs.player = new Image();
@@ -354,7 +400,6 @@
             canvasContext.fillText(msg, x, y);
             canvasContext.font = sizeStyle;
         }
-
     </script>
 </body>
 
