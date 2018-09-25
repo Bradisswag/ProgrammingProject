@@ -82,11 +82,11 @@
         var spacebarPressed = false
 
         //doughnut
-        var dXPos = canvas.width / 2;    
+        var dXPos = 250;
         var dYPos = 50;
         var dWidth = 50;
         var dHeight = 50;
-        
+
         function mainLoop() {
             if (GameRun == true) {
                 if (isThereAUsername == false) { //Gets Username
@@ -102,7 +102,7 @@
 
                 var player = drawSprite(imgs.player, PlayerXPos, PlayerYPos, 65, 65); // Player jetpack            
 
-                drawSprite(imgs.doughnut, canvas.width / 2, 50, 50, 50); // doughnut 
+                drawSprite(imgs.doughnut, 250, 50, 50, 50); // doughnut 
 
                 if (PlayerYPos > canvas.height - 65) { //Gravity
                     PlayerYPos -= 5;
@@ -112,9 +112,9 @@
                 }
 
                 canvasContext.font = "20px Arial"; //Timer text
-                canvasContext.fillText('Timer: ' + timer / 20, 405, 20); //Timer text
+                canvasContext.fillText('Timer: ' + timer / 20, 400, 20); //Timer text
 
-                if (fuelAmount <= 0) {//Timer
+                if (fuelAmount <= 0) { //Timer
                     fuelAmount = 0;
                 } else if (GameRun == true) { //Timer
                     timer++;
@@ -145,12 +145,12 @@
                     canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
                     return;
                 }
-                
-                if(winner == true){
+
+                if (winner == true) {
                     colorRect(10, 25, fuelAmount, 20, 'gold'); //fuel bar
                     canvasContext.font = "90px Arial Bold"; //text
                     canvasContext.fillText("Congrats!", 30, canvas.height / 4); //text
-                    
+
                     canvasContext.font = "90px Arial Bold"; //text
                     canvasContext.fillText("Game Over!", 30, canvas.height / 3); //text
 
@@ -166,6 +166,7 @@
                     fuelAmount - 0;
                 }
 
+                win();
                 brickRender();
                 brickMovement();
                 fuelRender();
@@ -176,6 +177,15 @@
                 if (difficulty != 0) {
                     difficultySetting();
                 }
+            }
+        }
+
+        function win() {
+            if (PlayerXPos < dXPos + dWidth && PlayerXPos > dXPos - PlayerWidth &&
+                PlayerYPos < dYPos + dHeight && PlayerYPos > dYPos - PlayerHeight) { // collision 
+                console.log('won');
+                winner = true;
+                fuelAmount = 0;
             }
         }
 
@@ -217,6 +227,7 @@
                 fuelYpos: Math.floor(Math.random() * ((800 - fuelHeight))),
                 fuelXspeed: Math.floor(Math.random() * (15 - 1) + 1),
                 fuelYspeed: Math.floor(Math.random() * (15 - 1) + 1)
+
             }
             return randFuel;
         }
@@ -259,13 +270,7 @@
             });
         }
 
-        function win(){
-            if (PlayerXPos < bricks.brickXpos + bricks.brickWidth && PlayerXPos > bricks.brickXpos - PlayerWidth &&
-                    PlayerYPos < bricks.brickYpos + bricks.brickHeight && PlayerYPos > bricks.brickYpos - PlayerHeight) { // collision 
-                    console.log('wo');
-                }
-        }
-        
+
         function fuelMovement() {
             fuelArray.forEach(function(fuel, index) {
 
