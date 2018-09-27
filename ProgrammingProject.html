@@ -129,7 +129,7 @@
                 }
 
                 if (fuelAmount == 0) {
-                    if (winner == true) {// if won
+                    if (winner == true) { // if won
                         colorRect(10, 25, fuelAmount, 20, 'gold'); //fuel bar
                         canvasContext.font = "90px Arial Bold"; //text
                         canvasContext.fillText("Congrats!", 70, canvas.height / 4); //text
@@ -154,7 +154,7 @@
                         canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
                         return;
                     }
-                } else if (fuelAmount < 30) {//fuel low
+                } else if (fuelAmount < 30) { //fuel low
                     canvasContext.font = "70px Arial Bold"; //text
                     canvasContext.fillText("FUEL LOW!", 70, canvas.height / 2); //text
                 }
@@ -193,7 +193,7 @@
         }
 
         function difficultySetting() {
-            brickCount = difficulty * 5;
+            brickCount = difficulty * 4;
             fuelCount = difficulty + 1;
             GameRun = true
             console.log('Bricks:' + brickCount)
@@ -262,7 +262,9 @@
                 if (PlayerXPos < bricks.brickXpos + bricks.brickWidth && PlayerXPos > bricks.brickXpos - PlayerWidth &&
                     PlayerYPos < bricks.brickYpos + bricks.brickHeight && PlayerYPos > bricks.brickYpos - PlayerHeight) { // collision 
                     console.log('hit');
-                    fuelAmount = fuelAmount - 10;
+                    bricks.brickYpos = canvas.height + bricks.brickHeight;
+                    timer = timer + 2500 / 50;
+                    fuelAmount = fuelAmount - 25;
                 }
             });
         }
@@ -384,6 +386,9 @@
 
             imgs.meteor = new Image();
             imgs.meteor.src = 'meteor.png';
+
+            imgs.explosion = new Image();
+            imgs.explosion.src = 'explosion.jpg';
 
             return imgs;
         }
