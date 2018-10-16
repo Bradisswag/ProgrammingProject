@@ -29,8 +29,8 @@
         // Player
         var PlayerXPos = 250;
         var PlayerYPos = 850;
-        var PlayerWidth = 20;
-        var PlayerHeight = 20;
+        var PlayerWidth = 10;
+        var PlayerHeight = 10;
 
         //System
         var GameRun = false;
@@ -144,6 +144,7 @@
                         canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
                         return;
                     } else { //if fuel is gone
+                        colorRect(10, 25, fuelAmount, 20, 'red'); //fuel bar red
                         canvasContext.font = "90px Arial Bold"; //text
                         canvasContext.fillText("Game Over!", 30, canvas.height / 3); //text
 
@@ -159,7 +160,7 @@
                     canvasContext.fillText("FUEL LOW!", 70, canvas.height / 2); //text
                 }
 
-                if (fuelAmount <= 0) {
+                if (fuelAmount <= 0) { //safety
                     fuelAmount - 0;
                 }
 
@@ -193,16 +194,16 @@
         }
 
         function difficultySetting() {
-            brickCount = difficulty * 4;
-            fuelCount = difficulty + 1;
-            GameRun = true
-            console.log('Bricks:' + brickCount)
-            console.log('Fuels:' + fuelCount)
+            brickCount = difficulty * 4; // creates the bricks
+            fuelCount = difficulty + 1; // creates the fuel
+            GameRun = true // starts game
+            console.log('Bricks:' + brickCount) // outputs how many meteors are created in console
+            console.log('Fuels:' + fuelCount) // outputs how many fuel cans are created in console
 
-            for (i = 0; i <= brickCount; i++) {
+            for (i = 0; i <= brickCount; i++) { // brick array
                 brickArray.push(randomBrick());
             }
-            for (i = 0; i <= fuelCount; i++) {
+            for (i = 0; i <= fuelCount; i++) { // fuel array
                 fuelArray.push(randomFuel());
             }
         }
@@ -244,7 +245,7 @@
             return randBrick;
         }
 
-        function brickMovement() {
+        function brickMovement() { // the movement for the bricks / meteors
             brickArray.forEach(function(bricks, index) {
 
                 bricks.brickXpos += bricks.brickXspeed
@@ -270,7 +271,7 @@
         }
 
 
-        function fuelMovement() {
+        function fuelMovement() { // fuel can movement
             fuelArray.forEach(function(fuel, index) {
 
                 fuel.fuelXpos += fuel.fuelXspeed
@@ -301,7 +302,7 @@
             });
         }
 
-        function keyPressed(evt) {
+        function keyPressed(evt) { // keys pressed
             if (evt.keyCode == 49) { //1
                 oneKeyPressed = true;
                 difficulty = 1;
@@ -325,7 +326,7 @@
             }
         }
 
-        function keyReleased(evt) {
+        function keyReleased(evt) { // keys released
             if (evt.keyCode == 49) { //1
                 oneKeyPressed = false;
             }
@@ -346,7 +347,7 @@
             }
         }
 
-        function jetpackControls() {
+        function jetpackControls() { // controls for jetpack/player
             if (leftArrowKeyPressed == true) {
                 PlayerXPos -= 10;
             }
@@ -367,7 +368,7 @@
             }
         }
 
-        function LoadImageAssests() {
+        function LoadImageAssests() { // images
             imgs = {};
             imgs.player = new Image();
             imgs.player.src = 'jetpack.png';
@@ -390,16 +391,16 @@
             return imgs;
         }
 
-        function drawSprite(src, x, y, w, h) {
+        function drawSprite(src, x, y, w, h) { // draw sprite
             canvasContext.drawImage(src, x, y, w, h);
         }
 
-        function colorRect(x, y, w, h, c) {
+        function colorRect(x, y, w, h, c) { // color
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
         }
 
-        function drawText(x, y, color, msg, sizeStyle) {
+        function drawText(x, y, color, msg, sizeStyle) { // text
             canvasContext.fillStyle = color;
             canvasContext.fillText(msg, x, y);
             canvasContext.font = sizeStyle;
