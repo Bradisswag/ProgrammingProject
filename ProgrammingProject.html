@@ -93,9 +93,13 @@
                     username = prompt('Please enter your username.');
                     isThereAUsername = true;
                 }
+                if (username == '') {
+                    username = 'no name';
+                }
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
 
                 drawSprite(imgs.background, 0, 0, canvas.width, canvas.height) // canvas background
+                colorRect(10, 25, 150, 20, 'red'); //fuel bar
                 colorRect(10, 25, fuelAmount, 20, 'aqua'); //fuel bar
                 canvasContext.font = "20px Arial"; //text
                 canvasContext.fillText("Fuel Amount:", 5, 20); //text
