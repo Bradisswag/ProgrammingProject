@@ -28,7 +28,7 @@
 
         // Player
         var PlayerXPos = 250;
-        var PlayerYPos = 850;
+        var PlayerYPos = 840;
         var PlayerWidth = 10;
         var PlayerHeight = 10;
 
@@ -60,8 +60,8 @@
         var fuelYpos = 0;
         var fuelYspeed = 0;
         var fuelXspeed = 0;
-        var fuelWidth = 50;
-        var fuelHeight = 50;
+        var fuelWidth = 40;
+        var fuelHeight = 40;
 
         var fuelAmount = 100;
 
@@ -73,8 +73,8 @@
         var difficulty = 0;
 
         //meteor
-        var meteorWidth = 100;
-        var meteorHeight = 100;
+        var meteorWidth = 50;
+        var meteorHeight = 50;
 
         //jetpack controls
         var leftArrowKeyPressed = false
@@ -104,7 +104,7 @@
                 canvasContext.font = "20px Arial"; //text
                 canvasContext.fillText("Fuel Amount:", 5, 20); //text
 
-                var player = drawSprite(imgs.player, PlayerXPos, PlayerYPos, 65, 65); // Player jetpack            
+                var player = drawSprite(imgs.player, PlayerXPos, PlayerYPos, 70, 70); // Player jetpack            
 
                 drawSprite(imgs.doughnut, 250, 50, 50, 50); // doughnut 
 
@@ -185,7 +185,7 @@
         function win() {
             if (PlayerXPos < dXPos + dWidth && PlayerXPos > dXPos - PlayerWidth &&
                 PlayerYPos < dYPos + dHeight && PlayerYPos > dYPos - PlayerHeight) { // collision 
-                console.log('won');
+                console.log('You won the game on difficulty:',difficulty,'!');
                 winner = true;
                 fuelAmount = 0;
             }
@@ -266,7 +266,7 @@
                 }
                 if (PlayerXPos < bricks.brickXpos + bricks.brickWidth && PlayerXPos > bricks.brickXpos - PlayerWidth &&
                     PlayerYPos < bricks.brickYpos + bricks.brickHeight && PlayerYPos > bricks.brickYpos - PlayerHeight) { // collision 
-                    console.log('hit');
+                    console.log('You got hit!');
                     bricks.brickYpos = canvas.height + bricks.brickHeight;
                     timer = timer + 2500 / 50;
                     fuelAmount = fuelAmount - 25;
@@ -294,7 +294,7 @@
                     PlayerYPos < fuel.fuelYpos + fuel.fuelHeight && PlayerYPos > fuel.fuelYpos - PlayerHeight) { // collision 
 
                     fuel.fuelYpos = -10;
-                    console.log('hit');
+                    console.log('+ ',fuelPerCan,'Fuel');
                     fuelAmount = fuelAmount + fuelPerCan;
                     if (fuelAmount > 150) {
                         fuelAmount = 150;
@@ -375,7 +375,7 @@
         function LoadImageAssests() { // images
             imgs = {};
             imgs.player = new Image();
-            imgs.player.src = 'jetpack.png';
+            imgs.player.src = 'thermalthruster1.png';
 
             imgs.background = new Image();
             imgs.background.src = 'space.jpg';
