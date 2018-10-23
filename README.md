@@ -6,8 +6,6 @@ The game controls are:
 => [Space Bar] to go up/ activate jetpack,
 => [ ⬅ ] to go left,
 => [ ➡ ] to go right,
-=> [ ⬆ ] to go up,
-=> [ ⬇ ] to go down,
 
 ProgrammingProject
 
