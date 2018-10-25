@@ -17,7 +17,7 @@
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
 
-            setInterval(mainLoop, 2500 / 50);
+            setInterval(mainLoop, 2500 / 80);
         }
         //Timer
         var timer = 0;
@@ -28,9 +28,10 @@
 
         // Player
         var PlayerXPos = 250;
-        var PlayerYPos = 840;
-        var PlayerWidth = 10;
-        var PlayerHeight = 10;
+        var PlayerYPos = 820;
+        var PlayerWidth = 70;
+        var PlayerHeight = 70;
+        var defaultPlayerYPos = 820;
 
         //System
         var GameRun = false;
@@ -104,15 +105,16 @@
                 canvasContext.font = "20px Arial"; //text
                 canvasContext.fillText("Fuel Amount:", 5, 20); //text
 
-                var player = drawSprite(imgs.player, PlayerXPos, PlayerYPos, 70, 70); // Player jetpack            
+                drawSprite(imgs.player, PlayerXPos, PlayerYPos, PlayerWidth, PlayerHeight); // Player jetpack            
 
                 drawSprite(imgs.doughnut, 250, 50, 50, 50); // doughnut 
 
-                if (PlayerYPos > canvas.height - 65) { //Gravity
+                if (PlayerYPos > canvas.height - 70) { // Stop Escape at top
                     PlayerYPos -= 5;
                     PlayerYPos += 5;
-                } else {
-                    PlayerYPos += 10;
+                }
+                if (PlayerYPos > defaultPlayerYPos) { // Stop Escape at bottom
+                    PlayerYPos = defaultPlayerYPos;
                 }
 
                 canvasContext.font = "20px Arial"; //Timer text
@@ -185,7 +187,7 @@
         function win() {
             if (PlayerXPos < dXPos + dWidth && PlayerXPos > dXPos - PlayerWidth &&
                 PlayerYPos < dYPos + dHeight && PlayerYPos > dYPos - PlayerHeight) { // collision 
-                console.log('You won the game on difficulty:',difficulty,'!');
+                console.log('You won the game on difficulty:', difficulty, '!');
                 winner = true;
                 fuelAmount = 0;
             }
@@ -203,6 +205,7 @@
             GameRun = true // starts game
             console.log('Bricks:' + brickCount) // outputs how many meteors are created in console
             console.log('Fuels:' + fuelCount) // outputs how many fuel cans are created in console
+            console.log('Gamemode:' + difficulty) // outputs difficulty in console
 
             for (i = 0; i <= brickCount; i++) { // brick array
                 brickArray.push(randomBrick());
@@ -264,8 +267,7 @@
                 if (bricks.brickYpos > canvas.height - bricks.brickHeight) {
                     bricks.brickYpos = 0 - bricks.brickHeight;
                 }
-                if (PlayerXPos < bricks.brickXpos + bricks.brickWidth && PlayerXPos > bricks.brickXpos - PlayerWidth &&
-                    PlayerYPos < bricks.brickYpos + bricks.brickHeight && PlayerYPos > bricks.brickYpos - PlayerHeight) { // collision 
+                if (bricks.brickXpos + bricks.brickWidth > PlayerXPos && bricks.brickXpos < PlayerXPos + PlayerWidth && bricks.brickYpos + bricks.brickHeight > PlayerYPos && bricks.brickYpos < PlayerYPos + PlayerHeight) { // collision 
                     console.log('You got hit!');
                     bricks.brickYpos = canvas.height + bricks.brickHeight;
                     timer = timer + 2500 / 50;
@@ -290,9 +292,7 @@
                 if (fuel.fuelYpos > canvas.height - fuel.fuelHeight) {
                     fuel.fuelYpos = 0 - fuel.fuelHeight;
                 }
-                if (PlayerXPos < fuel.fuelXpos + fuel.fuelWidth && PlayerXPos > fuel.fuelXpos - PlayerWidth &&
-                    PlayerYPos < fuel.fuelYpos + fuel.fuelHeight && PlayerYPos > fuel.fuelYpos - PlayerHeight) { // collision 
-
+                if (fuel.fuelXpos + fuel.fuelWidth > PlayerXPos && fuel.fuelXpos < PlayerXPos + PlayerWidth && fuel.fuelYpos + fuel.fuelHeight > PlayerYPos && fuel.fuelYpos < PlayerYPos + PlayerHeight) { // collision 
                     fuel.fuelYpos = -10;
                     console.log('+ ',fuelPerCan,'Fuel');
                     fuelAmount = fuelAmount + fuelPerCan;
@@ -353,13 +353,15 @@
 
         function jetpackControls() { // controls for jetpack/player
             if (leftArrowKeyPressed == true) {
-                PlayerXPos -= 10;
+                PlayerXPos -= 7;
             }
             if (rightArrowKeyPressed == true) {
-                PlayerXPos += 10;
+                PlayerXPos += 7;
             }
             if (spacebarPressed == true) {
-                PlayerYPos -= 20;
+                PlayerYPos -= 7;
+            } else {
+                PlayerYPos += 7;
             }
             if (PlayerXPos > canvas.width - 60) {
                 PlayerXPos = canvas.width - 60;
