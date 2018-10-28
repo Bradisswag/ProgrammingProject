@@ -65,12 +65,11 @@
         var fuelHeight = 40;
 
         var fuelAmount = 100;
-
         var fuelPerCan = 25;
-
         var fuelArray = [];
         var fuelCount = 0;
 
+        // difficulty
         var difficulty = 0;
 
         //meteor
@@ -95,7 +94,7 @@
                     isThereAUsername = true;
                 }
                 if (username == '') {
-                    username = 'no name';
+                    username = 'Unknown';
                 }
                 colorRect(0, 0, canvas.width, canvas.height, 'black') // canvas
 
@@ -178,7 +177,7 @@
                 jetpackControls();
             } else if (GameRun == false) {
                 drawSprite(imgs.startscreen, 0, 0, canvas.width, canvas.height) // canvas background
-                if (difficulty != 0) {
+                if (difficulty != 0) { // selects difficulty
                     difficultySetting();
                 }
             }
@@ -188,7 +187,7 @@
             if (PlayerXPos < dXPos + dWidth && PlayerXPos > dXPos - PlayerWidth &&
                 PlayerYPos < dYPos + dHeight && PlayerYPos > dYPos - PlayerHeight) { // collision 
                 console.log('You won the game on difficulty:', difficulty, '!');
-                winner = true;
+                winner = true; //activates win code
                 fuelAmount = 0;
             }
         }
@@ -245,7 +244,7 @@
                 brickWidth: brickWidth,
                 brickHeight: brickHeight,
                 brickXpos: Math.floor(Math.random() * ((canvas.width - brickWidth))),
-                brickYpos: 0, //Math.floor(Math.random() * ((700 - brickHeight))),
+                brickYpos: 0,
                 brickXspeed: Math.floor(Math.random() * (10 - 1) + 1),
                 brickYspeed: Math.floor(Math.random() * (10 - 1) + 1)
             }
