@@ -117,7 +117,7 @@
                 }
 
                 canvasContext.font = "20px Arial"; //Timer text
-                canvasContext.fillText('Timer: ' + timer / 20, 400, 20); //Timer text
+                canvasContext.fillText('Timer: ' + timer / 20, 390, 20); //Timer text
 
                 if (fuelAmount <= 0) { //Timer
                     fuelAmount = 0;
@@ -132,7 +132,7 @@
                         fuelAmount--;
                     }
                 }
-
+                
                 if (fuelAmount == 0) {
                     if (winner == true) { // if won
                         colorRect(10, 25, fuelAmount, 20, 'gold'); //fuel bar
@@ -142,11 +142,12 @@
                         canvasContext.font = "90px Arial Bold"; //text
                         canvasContext.fillText("Game Over!", 30, canvas.height / 3); //text
 
-                        canvasContext.font = "30px Arial Bold"; //text
-                        canvasContext.fillText("Press 'F5' to play again.", 100, canvas.height / 2); //text
+                        canvasContext.font = "30px Arial Bold"; //tExt
+                        canvasContext.fillText("Play again? Press: F5", canvas.width / 4, canvas.height / 2); //text
 
                         canvasContext.font = "25px Arial Bold"; //text
-                        canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
+                        canvasContext.fillText(username + ", ", canvas.width / 3 + 20, canvas.height / 2 + 50); //text
+                        canvasContext.fillText('Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 70); //text
                         return;
                     } else { //if fuel is gone
                         colorRect(10, 25, fuelAmount, 20, 'red'); //fuel bar red
@@ -154,10 +155,11 @@
                         canvasContext.fillText("Game Over!", 30, canvas.height / 3); //text
 
                         canvasContext.font = "30px Arial Bold"; //text
-                        canvasContext.fillText("Press 'F5' to play again.", 100, canvas.height / 2); //text
+                        canvasContext.fillText("Play again? Press: F5", canvas.width / 4, canvas.height / 2); //text
 
                         canvasContext.font = "25px Arial Bold"; //text
-                        canvasContext.fillText(username + ', Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 50); //text
+                        canvasContext.fillText(username + ", ", canvas.width / 3 + 20, canvas.height / 2 + 50); //text
+                        canvasContext.fillText('Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 70); //text
                         return;
                     }
                 } else if (fuelAmount < 30) { //fuel low
@@ -269,7 +271,6 @@
                 if (bricks.brickXpos + bricks.brickWidth > PlayerXPos && bricks.brickXpos < PlayerXPos + PlayerWidth && bricks.brickYpos + bricks.brickHeight > PlayerYPos && bricks.brickYpos < PlayerYPos + PlayerHeight) { // collision 
                     console.log('You got hit!');
                     bricks.brickYpos = canvas.height + bricks.brickHeight;
-                    timer = timer + 2500 / 50;
                     fuelAmount = fuelAmount - 25;
                 }
             });
@@ -293,7 +294,7 @@
                 }
                 if (fuel.fuelXpos + fuel.fuelWidth > PlayerXPos && fuel.fuelXpos < PlayerXPos + PlayerWidth && fuel.fuelYpos + fuel.fuelHeight > PlayerYPos && fuel.fuelYpos < PlayerYPos + PlayerHeight) { // collision 
                     fuel.fuelYpos = -10;
-                    console.log('+ ',fuelPerCan,'Fuel');
+                    console.log('+ ', fuelPerCan, 'Fuel');
                     fuelAmount = fuelAmount + fuelPerCan;
                     if (fuelAmount > 150) {
                         fuelAmount = 150;
@@ -327,6 +328,9 @@
             if (evt.keyCode == 32) { //  Space key
                 spacebarPressed = true;
             }
+//            if (evt.keyCode == 82) { //  R (reset) key
+//                rPressed = true;
+//            }
         }
 
         function keyReleased(evt) { // keys released
@@ -348,6 +352,9 @@
             if (evt.keyCode == 32) { //  Space key
                 spacebarPressed = false;
             }
+//            if (evt.keyCode == 82) { //  R (reset) key
+//                rPressed = false;
+//            }
         }
 
         function jetpackControls() { // controls for jetpack/player
