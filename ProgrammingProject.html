@@ -19,9 +19,7 @@
 
             setInterval(mainLoop, 2500 / 80);
         }
-        //Timer
-        var timer = 0;
-
+    
         //Username
         var isThereAUsername = false;
         var username = [];
@@ -39,6 +37,8 @@
         var Medium = false;
         var Hard = false;
         var winner = false;
+        var timer = 0;
+        var timerSeconds = 0;
 
         //StartScreen
         var oneKeyPressed = false;
@@ -117,12 +117,13 @@
                 }
 
                 canvasContext.font = "20px Arial"; //Timer text
-                canvasContext.fillText('Timer: ' + timer / 20, 390, 20); //Timer text
+                canvasContext.fillText('Timer: ' + timerSeconds.toFixed(2) , 390, 20); //Timer text
 
                 if (fuelAmount <= 0) { //Timer
                     fuelAmount = 0;
                 } else if (GameRun == true) { //Timer
                     timer++;
+                    timerSeconds = timer / 32.5;
                 }
 
                 if (spacebarPressed) {
@@ -147,7 +148,7 @@
 
                         canvasContext.font = "25px Arial Bold"; //text
                         canvasContext.fillText(username + ", ", canvas.width / 3 + 20, canvas.height / 2 + 50); //text
-                        canvasContext.fillText('Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 70); //text
+                        canvasContext.fillText('Your time was: ' + timerSeconds.toFixed(2) + ' seconds', 90, canvas.height / 2 + 70); //text
                         return;
                     } else { //if fuel is gone
                         colorRect(10, 25, fuelAmount, 20, 'red'); //fuel bar red
@@ -159,7 +160,7 @@
 
                         canvasContext.font = "25px Arial Bold"; //text
                         canvasContext.fillText(username + ", ", canvas.width / 3 + 20, canvas.height / 2 + 50); //text
-                        canvasContext.fillText('Your time was: ' + timer / 20 + ' seconds', 90, canvas.height / 2 + 70); //text
+                        canvasContext.fillText('Your time was: ' + timerSeconds.toFixed(2) + ' seconds', 90, canvas.height / 2 + 70); //text
                         return;
                     }
                 } else if (fuelAmount < 30) { //fuel low
